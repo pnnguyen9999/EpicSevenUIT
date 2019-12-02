@@ -1,21 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
+import { StyleSheet,Image,StatusBar,ScrollView,  } from 'react-native';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
+  BottomNavigation,
+  BottomNavigationTab,
+  Icon,
+  ApplicationProvider,
+} from 'react-native-ui-kitten';
+import {
+  light as theme,
+} from '@eva-design/eva';
+import { mapping, light as lightTheme } from '@eva-design/eva';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { Text, View } from 'react-native';
+import {  createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import AppNav from './src/components/navigation/AppNav';
 import {
   Header,
   LearnMoreLinks,
@@ -27,47 +26,10 @@ import {
 const App: () => React$Node = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <StatusBar barStyle="light-content" backgroundColor='#006079'/>
+      <ApplicationProvider mapping={mapping} theme={lightTheme}>
+      <AppNav />
+     </ApplicationProvider>
     </>
   );
 };
