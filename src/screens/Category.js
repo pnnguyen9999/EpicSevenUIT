@@ -34,14 +34,22 @@ export default class Category extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerStyle: {height: 60},
-      headerTitle: (
-        <React.Fragment>
-          <View style={{ width: '100%', height: 60, backgroundColor: "#3C8DA8",position:'absolute' }}>
-
-          </View>
-        </React.Fragment>
-      )
-      
+      title: "Category",
+      headerStyle: {
+          backgroundColor: '#3c8da8',
+          color: '#fff',
+      },
+      headerTitleStyle: {
+          color: 'white'
+      },
+      headerTintColor: '#fff',
+      // headerTitle: (
+      //   <React.Fragment>
+      //     <View style={{ width: '100%', height: 60, backgroundColor: "#3c8da8",position:'absolute',alignContent:'center',justifyContent:'center' }}>
+      //      <Text style={{fontSize:23, alignSelf:'flex-start',color:'#fff', padding:15}}>Heroes list</Text>
+      //     </View>
+      //   </React.Fragment>
+      // )
     }
   }
   //  -----------------------------

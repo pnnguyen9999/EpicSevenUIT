@@ -8,27 +8,22 @@ import {ThemeProvider} from 'react-native-ui-kitten/theme'
 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import HeroList from "../../screens/HeroList";
+import HeroDetail from "../../screens/HeroDetail/Main";
 import Category from "../../screens/Category";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
- const HeroListStack = createStackNavigator(
+ const HeroDetailStack = createStackNavigator(
   {
-    HeroList: HeroList,
-  }
-);
-
-const CategoryStack = createStackNavigator(
-  {
-    Category: Category,
+    HeroDetail: HeroDetail,
   }
 );
 
 
-HeroListStack.navigationOptions = {
-  title: "Heroes list",
+
+HeroDetailStack.navigationOptions = {
+  title: "alo12345",
   // headerStyle: {
   //     backgroundColor: '#e5101d',
   //     color:'#fff',
@@ -42,8 +37,7 @@ HeroListStack.navigationOptions = {
 
 const TabNavigatorExportAll = createBottomTabNavigator(
   {
-    HeroList: HeroListStack,
-    Category: CategoryStack,
+    HeroDetail: HeroDetailStack,
 },
 
 

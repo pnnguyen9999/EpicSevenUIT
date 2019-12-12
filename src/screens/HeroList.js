@@ -74,15 +74,36 @@ export default class HomePage extends React.Component {
   //  ----------------------------- RENDER HEADER
   static navigationOptions = ({ navigation }) => {
     return {
-      headerStyle: {height: 60},
-      headerTitle: (
-        <React.Fragment>
-          <View style={{ width: '100%', height: 60, backgroundColor: "#3c8da8",position:'absolute' }}>
-           
-          </View>
-        </React.Fragment>
-      )
-      
+      headerStyle: {height: 60, padding:0, margin:0},
+      title: "Heroes list",
+      headerStyle: {
+          backgroundColor: '#3c8da8',
+          color: '#fff',
+      },
+      headerTitleStyle: {
+          color: 'white'
+      },
+      headerTintColor: '#fff',
+      headerLeft: () => {
+        return (
+          <TouchableOpacity style={{paddingLeft:15}} onPress={() => navigation.toggleDrawer()}>
+            <Image
+              style={{width:32,height:30,tintColor:"rgba(255,255,255,0.9)"}}
+              source={{
+                uri:
+                  "https://akveo.github.io/eva-icons/outline/png/128/menu-2-outline.png"
+              }}
+            />
+          </TouchableOpacity>
+        )
+    }
+      // headerTitle: (
+      //   <React.Fragment>
+      //     <View style={{ width: '100%', height: 60, backgroundColor: "#3c8da8",position:'absolute',alignContent:'center',justifyContent:'center' }}>
+      //      <Text style={{fontSize:23, alignSelf:'flex-start',color:'#fff', padding:15}}>Heroes list</Text>
+      //     </View>
+      //   </React.Fragment>
+      // )
     }
   }
   //  -----------------------------
@@ -133,11 +154,9 @@ export default class HomePage extends React.Component {
     // VERTICAL SLIDER
     const renderItemDecu = ({ item, index }) => (
       <>
-        <TouchableOpacity onPress={() => navigate("ChiTiet", {
-          tenSp: item.name,
-          giaSp: item.price,
-          catSp: item.categories_lv3_name,
-          hinhSp: item.image,
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('HeroDetail', {
+          // TRUYỀN TÊN BỆNH
+          heroID: item._id,
         })} style={{}}>
 
           <View width={(Dimensions.get('window').width / 4) - 15} height={130} style={{
@@ -145,7 +164,7 @@ export default class HomePage extends React.Component {
             margin: 5, marginBottom:0, marginTop:2, paddingTop:0, backgroundColor: "transparent",
           }}>
             <Image source={{ uri: "https://assets.epicsevendb.com/hero/"+item._id+"/icon.png" }} style={{ width: 70, height: 70, alignSelf: 'center',borderRadius: 5, }}></Image>
-            <Text numberOfLines={2} style={{ padding:7, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, fontSize: 12, lineHeight: 15,color:'#323232' }}>{item.name}</Text>
+            <Text numberOfLines={2} style={{ padding:7, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, fontSize: 13, lineHeight: 15,color:'#323232' }}>{item.name}</Text>
            
           </View>
 
@@ -260,7 +279,8 @@ const styles = StyleSheet.create({
 //   }
 // }
 
-// // HomePage.navigationOptions = {
-// //   header: () => <LogoTitle />,
-// // }
+// HomePage.navigationOptions = {
+//   title: "1233",
+//   // header: () => <LogoTitle />,
+// }
 
