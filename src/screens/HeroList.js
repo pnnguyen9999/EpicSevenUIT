@@ -1,6 +1,7 @@
 import React from 'react';
 // import Intl from 'react-native-intl';
-import { StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, TextInput } from 'react-native';
+import { StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, TextInput, ImageBackground}  from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -20,6 +21,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStore } from 'redux';
 
 const SearchBar = (style) => (
   <Image
@@ -71,6 +73,11 @@ export default class HomePage extends React.Component {
     };
   }
 
+  
+  
+
+
+
   //  ----------------------------- RENDER HEADER
   static navigationOptions = ({ navigation }) => {
     return {
@@ -111,6 +118,40 @@ export default class HomePage extends React.Component {
   //  ----------------------------- ALLFUNCTION
   componentDidMount() {
     this.getDataAll()
+    // // -- redux practice
+    // // state
+    // let appState = { number: 1 }
+    // // action
+    // const add = {
+    //   type: 'ADD',
+    //   value: 1
+    // }
+    // const sub = {
+    //   type: 'SUB',
+    //   value: 1
+    // }
+    // // reducer
+    // const numberReducer = (state, action) => {
+    //   switch(action.type) {
+    //     case 'ADD':
+    //       state.number += action.value;
+    //       break;
+    //     case 'SUB':
+    //       state.number -= action.value;
+    //       break;
+    //   }
+    //   return state
+    // }
+
+    // // store
+    // const store = createStore(numberReducer, appState);
+    // // Test
+    // store.subscribe( () => {
+    //   console.log('state updated', store.getState())
+    // })
+    // store.dispatch(add);
+    // store.dispatch(add);
+
   }
 
 
@@ -154,17 +195,26 @@ export default class HomePage extends React.Component {
     // VERTICAL SLIDER
     const renderItemDecu = ({ item, index }) => (
       <>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('HeroDetail', {
-          // TRUYỀN TÊN BỆNH
-          heroID: item._id,
-        })} style={{}}>
+        <TouchableOpacity onPress={() => {
+          AsyncStorage.setItem('heroID', item._id);
+          this.props.navigation.navigate('HeroDetail',{
+            heroID: item._id
+          });
+        }} style={{}}>
 
           <View width={(Dimensions.get('window').width / 4) - 15} height={130} style={{
             alignItems: 'center', alignContent: 'center', borderRadius: 5, borderColor: "#DDD",
             margin: 5, marginBottom:0, marginTop:2, paddingTop:0, backgroundColor: "transparent",
           }}>
-            <Image source={{ uri: "https://assets.epicsevendb.com/hero/"+item._id+"/icon.png" }} style={{ width: 70, height: 70, alignSelf: 'center',borderRadius: 5, }}></Image>
-            <Text numberOfLines={2} style={{ padding:7, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, fontSize: 13, lineHeight: 15,color:'#323232' }}>{item.name}</Text>
+            <Image source={{ uri: "https://assets.epicsevendb.com/hero/"+item._id+"/icon.png" }} 
+            style={
+              (item.element == "fire") ? styles.element1 :
+                (item.element == "ice") ? styles.element2 :
+                  (item.element == "earth") ? styles.element3 :
+                    (item.element == "light") ? styles.element4 :
+                      (item.element == "dark") ? styles.element5 :
+                      styles.listItemName}></Image>
+            <Text numberOfLines={2} style={{ padding:7, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, fontSize: 13, lineHeight: 15,color:'#fff' }}>{item.name}</Text>
            
           </View>
 
@@ -177,7 +227,7 @@ export default class HomePage extends React.Component {
 
     return (
       <ScrollView style={{}}>
-        <View style={{ flex: 1, justifyContent: 'center', paddingTop: 20, backgroundColor: '#eee' }}>
+        <ImageBackground source={require("../images/background.jpg")} style={{ flex: 1,resizeMode: 'contain', justifyContent: 'center', paddingTop: 20, backgroundColor: '#eee' }}>
 
 
           <View style={{ marginTop: 5, paddingBottom: 10, backgroundColor: 'transparent', marginHorizontal: 0, borderBottomWidth: 1, borderColor: "#DDD" }}>
@@ -197,9 +247,9 @@ export default class HomePage extends React.Component {
           </View>
           <View style={{flexDirection:'row',justifyContent:'center',padding:30}}>
           <ActivityIndicator size='small'></ActivityIndicator>
-            <Text style={{ textAlign: "center", paddingHorizontal:5, color: "#757575",fontSize:15 }}>still loading, fuck you</Text>
+            <Text style={{ textAlign: "center", paddingHorizontal:5, color: "#fff",fontSize:15 }}>still loading</Text>
           </View>
-        </View>
+        </ImageBackground>
       </ScrollView>
     );
   }
@@ -221,6 +271,21 @@ const styles = StyleSheet.create({
     height: 100,
     marginTop: 0,
     backgroundColor: 'transparent',
+  },
+  element1: {
+    width: 70, height: 70, alignSelf: 'center',borderRadius: 50,borderWidth:3,borderColor:'#f44336'
+  },
+  element2: {
+    width: 70, height: 70, alignSelf: 'center',borderRadius: 50,borderWidth:3,borderColor:'#2196F3'
+  },
+  element3: {
+    width: 70, height: 70, alignSelf: 'center',borderRadius: 50,borderWidth:3,borderColor:'#4CAF50'
+  },
+  element4: {
+    width: 70, height: 70, alignSelf: 'center',borderRadius: 50,borderWidth:3,borderColor:'#FDD835'
+  },
+  element5: {
+    width: 70, height: 70, alignSelf: 'center',borderRadius: 50,borderWidth:3,borderColor:'#9C27B0'
   },
   titleText: {
     // textDecorationLine:'underline',

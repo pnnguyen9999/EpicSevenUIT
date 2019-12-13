@@ -1,6 +1,7 @@
 import React from 'react';
 // import Intl from 'react-native-intl';
 import { StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, ImageBackground } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -30,22 +31,26 @@ const StarIcon = (style) => (
   <Icon {...style} name='star' />
 );
 
-
+var log;
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // _ArrGetAll:
+      get_failed: 0,
       dataGetAll: [],
       heroData: []
     };
   }
 
+  
   //  ----------------------------- RENDER HEADER
   static navigationOptions = ({ navigation }) => {
+    const propsFromMessages = navigation.state.params;
+    AsyncStorage.setItem('heroID', propsFromMessages.heroID);
     return {
       headerStyle: {height: 60, padding:0, margin:0},
-      title: "Heroes Info",
+      title: propsFromMessages.heroID.toUpperCase(),
       headerStyle: {
           backgroundColor: '#3c8da8',
           color: '#fff',
@@ -56,7 +61,7 @@ export default class HomePage extends React.Component {
       headerTintColor: '#fff',
       headerLeft: () => {
         return (
-          <TouchableOpacity style={{paddingLeft:15}} onPress={() => navigation.navigate('Main')}>
+          <TouchableOpacity style={{paddingLeft:15}} onPress={() => navigation.navigate('HeroMain')}>
             <Image
               style={{width:32,height:32,tintColor:"rgba(255,255,255,0.9)"}}
               source={{
@@ -72,7 +77,8 @@ export default class HomePage extends React.Component {
   //  -----------------------------
 
   //  ----------------------------- ALLFUNCTION
-  componentDidMount() {
+  componentDidMount = async () => {
+    log = await AsyncStorage.getItem('heroID');
     this.getDataAll()
   }
 
@@ -100,6 +106,10 @@ export default class HomePage extends React.Component {
   };
 
   
+  _onError = () => {
+    this.setState({ get_failed: 1 })
+  }
+
   render() {
     const dimensions = Dimensions.get('window');
     const imageWidth = (dimensions.width / 2) - ((dimensions.width * 8) / 100);
@@ -127,95 +137,116 @@ export default class HomePage extends React.Component {
     //  -----------------------------
 
     renderZodiac = (sign) => {
-        if (sign == "aries") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/1_aries.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "taurus") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/2_taurus.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "gemini") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/3_gemini.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "cancer") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/4_cancer.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "leo") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/5_leo.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "virgo") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/6_virgo.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "libra") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/7_libra.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "scorpio") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/8_scorpio.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "sagittarius") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/9_sagittarius.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "capricorn") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/10_capricorn.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "aquarius") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/11_aquarius.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-        if (sign == "pisces") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/12_pisces.png" }} style={{ width: 35, height: 35 }}></Image>
-            )
-        }
-
+      switch(sign) {
+        case "aries": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/1_aries.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "taurus": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/2_taurus.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "gemini": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/3_gemini.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "cancer": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/4_cancer.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "leo": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/5_leo.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "virgo": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/6_virgo.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "libra": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/7_libra.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "scorpio": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/8_scorpio.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "sagittarius": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/9_sagittarius.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "capricorn": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/10_capricorn.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "aquarius": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/11_aquarius.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+        case "pisces": 
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/12_pisces.png" }} 
+            style={{ width: 35, height: 35 }}></Image>
+          )
+          break;
+      }
     }
     
     renderElement = (sign) => {
-        if (sign == "fire") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_profire.png" }} style={{ width: 30, height: 30 }}></Image>
-            )
-        }
-        if (sign == "ice") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proice.png" }} style={{ width: 30, height: 30 }}></Image>
-            )
-        }
-        if (sign == "earth") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proearth.png" }} style={{ width: 30, height: 30 }}></Image>
-            )
-        }
-        if (sign == "light") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promlight.png" }} style={{ width: 30, height: 30 }}></Image>
-            )
-        }
-        if (sign == "dark") {
-            return (
-                <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promdark.png" }} style={{ width: 30, height: 30 }}></Image>
-            )
-        }
+      switch (sign) {
+        case 'fire':
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_profire.png" }} 
+            style={{ width: 30, height: 30 }}></Image>
+          );
+          break;
+        case 'ice':
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proice.png" }} 
+            style={{ width: 30, height: 30 }}></Image>
+          );
+          break;
+        case 'earth':
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proearth.png" }} 
+            style={{ width: 30, height: 30 }}></Image>
+          );
+          break;
+        case 'light':
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promlight.png" }} 
+            style={{ width: 30, height: 30 }}></Image>
+          );
+          break;
+        case 'dark':
+          return (
+            <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promdark.png" }} 
+            style={{ width: 30, height: 30 }}></Image>
+          );
+          break;
+        
+      }
     }
 
     renderClassType = (sign) => {
@@ -234,7 +265,7 @@ export default class HomePage extends React.Component {
                 <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_thief.png" }} style={{ width: 30, height: 30 }}></Image>
             )
         }
-        if (sign == "light") {
+        if (sign == "mage") {
             return (
                 <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_mage.png" }} style={{ width: 30, height: 30 }}></Image>
             )
@@ -256,11 +287,14 @@ export default class HomePage extends React.Component {
         }
     }
 
+    
+
     const propsFromMessages = this.props.navigation.state.params;
-    console.log(this.state.dataGetAll)
+    // alert(this.state.get_failed)
+    const width_screen = Dimensions.get('window').width;
     return ( 
       <ScrollView style={{backgroundColor: '#eee'}}>
-          <ImageBackground source={require("../../images/background.jpg")} style={{flex:1,resizeMode: 'cover'}}>
+          <ImageBackground source={require("../../images/background.jpg")} style={{flex:1,resizeMode: 'contain'}}>
         <View style={{flex:1,padding:10,paddingTop:20,paddingBottom:5,flexDirection:'row',justifyContent:'space-around'}}>
             <View style={{flexDirection:'row'}}>
                 {renderElement(this.state.dataGetAll.element)}
@@ -282,8 +316,13 @@ export default class HomePage extends React.Component {
         <Text style={{flex:1,paddingLeft:20, fontStyle:'italic',color:"#fff" }}>{this.state.dataGetAll.description}</Text>
 
         <View style={{height:400,padding:5,flexDirection:'column',justifyContent:'center',marginTop:95}}>
-        <Image source={{ uri: "https://assets.epicsevendb.com/herofull/"+propsFromMessages.heroID+".png" }} 
-               style={{ alignSelf: 'center',borderRadius: 5,width:320,height:600}} resizeMode={'contain'} ></Image>
+
+        {this.state.get_failed ? <Image source={{ uri: "https://assets.epicsevendb.com/hero/"+propsFromMessages.heroID+"/full.png"}} 
+               style={{ alignSelf: 'center',borderRadius: 5,width:width_screen,height:600}} resizeMode={'cover'} ></Image> : 
+               <Image source={{ uri: "https://assets.epicsevendb.com/herofull/"+propsFromMessages.heroID+".png" }} 
+               style={{ alignSelf: 'center',borderRadius: 5,width:width_screen,height:600}} resizeMode={'contain'} 
+               onError={this._onError}
+               ></Image>}
         </View>
         </ImageBackground>
       </ScrollView>

@@ -40,6 +40,19 @@ HeroListStack.navigationOptions = {
 }
 
 
+CategoryStack.navigationOptions = {
+  title: "Category",
+  // headerStyle: {
+  //     backgroundColor: '#e5101d',
+  //     color:'#fff',
+  // },
+  // headerTitleStyle: {
+  //     color: 'white'
+  //   },
+  // headerTintColor: '#fff'
+}
+
+
 const TabNavigatorExportAll = createBottomTabNavigator(
   {
     HeroList: HeroListStack,
@@ -49,10 +62,10 @@ const TabNavigatorExportAll = createBottomTabNavigator(
 
 {
   tabBarOptions: {
-    activeTintColor: '#006079',
+    activeTintColor: '#333333',
     activeBackgroundColor: '#eee',
     inactiveTintColor: 'gray',
-    labelStyle:{flex:2, fontWeight:'bold',fontSize:13},
+    labelStyle:{flex:2, fontWeight:'bold',fontSize:14},
   },
 }
 

@@ -9,6 +9,7 @@ import {ThemeProvider} from 'react-native-ui-kitten/theme'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import HeroDetail from "../../screens/HeroDetail/Main";
+import Biography from "../../screens/HeroDetail/Biography"
 import Category from "../../screens/Category";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -20,10 +21,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
   }
 );
 
+const BiographyStack = createStackNavigator(
+  {
+    Biography: Biography,
+  }
+);
+
 
 
 HeroDetailStack.navigationOptions = {
-  title: "alo12345",
+  title: "Main",
   // headerStyle: {
   //     backgroundColor: '#e5101d',
   //     color:'#fff',
@@ -38,15 +45,16 @@ HeroDetailStack.navigationOptions = {
 const TabNavigatorExportAll = createBottomTabNavigator(
   {
     HeroDetail: HeroDetailStack,
+    Biography: BiographyStack,
 },
 
 
 {
   tabBarOptions: {
-    activeTintColor: '#006079',
+    activeTintColor: '#333333',
     activeBackgroundColor: '#eee',
     inactiveTintColor: 'gray',
-    labelStyle:{flex:2, fontWeight:'bold',fontSize:13},
+    labelStyle:{flex:2, fontWeight:'bold',fontSize:14},
   },
 }
 
