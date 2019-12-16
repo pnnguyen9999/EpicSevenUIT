@@ -179,6 +179,7 @@ export default class HomePage extends React.Component {
             style={{alignSelf:'center'}}
             renderItem={renderRelationsItems}
             data={this.state.dataGetRelations}
+            keyExtractor={(item, index) => index.toString()}
             >
             </FlatList>
             </View>
