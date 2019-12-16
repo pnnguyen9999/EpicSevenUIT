@@ -10,6 +10,7 @@ import {
   Layout,
   List,
   Text,
+  Popover,
   ListItem,
   Button
 } from 'react-native-ui-kitten';
@@ -57,21 +58,12 @@ export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      filterVisible: 1,
       loading: true,
-      // _ArrTrending:
-      dataTrending: [],
-      // _ArrSale:
-      dataSale: [],
-      // _ArrGetAll:
       dataGetAll: [],
-      // _LoadmoreSale:
-      loadMoreSale: 3,
-      // _LoadmoreTrending:
-      loadMoreTrending: 3,
-      // _LoadmoreAll:
-      loadMoreAll: 11,
     };
   }
+  arrayholder = [];
 
   
   
@@ -103,7 +95,41 @@ export default class HomePage extends React.Component {
             />
           </TouchableOpacity>
         )
-    }
+      },
+      // headerRight: () => {
+      //   const { params = {} } = navigation.state
+      //   const PopoverContent = () => (
+      //     <Layout style={{
+      //       justifyContent: 'center',
+      //       alignItems: 'center',
+      //       padding: 24,
+      //     }}>
+      //       <Text>Hi!</Text>
+      //     </Layout>
+      //   );
+        
+      //   // const togglePopover = () => {
+      //   //   this.setState({filterVisible:1})
+      //   // };
+      //   console.log(navigation.getParam('filterVisible'))
+      //   return (
+      //     <Popover
+      //     backdropStyle={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}
+      //     visible={params.filterVisible}
+      //     content={PopoverContent()}
+      //     onBackdropPress={()=>this.setState({filterVisible:0})}>
+      //     <TouchableOpacity style={{paddingRight:15}} onPress={()=>this.setState({filterVisible:1})}>
+      //       <Image
+      //         style={{width:32,height:30,tintColor:"rgba(255,255,255,0.9)"}}
+      //         source={{
+      //           uri:
+      //             "https://akveo.github.io/eva-icons/outline/png/128/funnel-outline.png"
+      //         }}
+      //       />
+      //     </TouchableOpacity>
+      //   </Popover>
+      //   )
+      // }
       // headerTitle: (
       //   <React.Fragment>
       //     <View style={{ width: '100%', height: 60, backgroundColor: "#3c8da8",position:'absolute',alignContent:'center',justifyContent:'center' }}>
@@ -162,6 +188,7 @@ export default class HomePage extends React.Component {
         this.setState({
           dataGetAll: this.state.dataGetAll.concat(responseJson.results)
         })
+        this.arrayholder = responseJson.results;
       })
       .catch(error => console.log(error))
   }
@@ -177,6 +204,19 @@ export default class HomePage extends React.Component {
   }
 
   //  -----------------------------
+
+  searchFilterFunction = text => {
+    this.setState({
+      value: text,
+    });
+    const newData = this.arrayholder.filter(item => {
+      const itemData = `${item.name}`;
+      const itemDataUpp = itemData.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemDataUpp.indexOf(textData) > -1;
+    });
+    this.setState({ dataGetAll: newData });
+  };
 
   //  ----------------------------- RENDER SOMETHING
   renderFooter = () => {
@@ -226,10 +266,25 @@ export default class HomePage extends React.Component {
 
 
     return (
+      <ImageBackground source={require("../images/background.jpg")} style={{ flex: 1,resizeMode: 'contain', justifyContent: 'center', backgroundColor: '#eee' }}>
+      <View style={{ padding: 5, flexDirection:'row' }}>
+            <TextInput
+              placeholder="Search hero ..."
+              style={{width:dimensions.width-80,paddingHorizontal: 10, backgroundColor: "#fff", borderRadius: 5, color: "#3c8da8", height: 40, margin: 12}}
+              onChangeText={text => this.searchFilterFunction(text)}
+              autoCorrect={false}
+              size="small"
+              value={this.state.value}
+            />
+            <TouchableOpacity>
+                <Image
+                  style={{ width: 35, height: 35,marginVertical: 12, tintColor:"rgba(255,255,255,0.9)" }}
+                  source={{ uri: 'https://akveo.github.io/eva-icons/outline/png/128/funnel-outline.png' }}
+                />
+            </TouchableOpacity>
+      </View>
       <ScrollView style={{}}>
-        <ImageBackground source={require("../images/background.jpg")} style={{ flex: 1,resizeMode: 'contain', justifyContent: 'center', paddingTop: 20, backgroundColor: '#eee' }}>
-
-
+        
           <View style={{ marginTop: 5, paddingBottom: 10, backgroundColor: 'transparent', marginHorizontal: 0, borderBottomWidth: 1, borderColor: "#DDD" }}>
             <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
               <List
@@ -249,8 +304,9 @@ export default class HomePage extends React.Component {
           <ActivityIndicator size='small'></ActivityIndicator>
             <Text style={{ textAlign: "center", paddingHorizontal:5, color: "#fff",fontSize:15 }}>still loading</Text>
           </View>
-        </ImageBackground>
+        
       </ScrollView>
+      </ImageBackground>
     );
   }
 }

@@ -10,6 +10,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import HeroDetail from "../../screens/HeroDetail/Main";
 import Biography from "../../screens/HeroDetail/Biography"
+import Skills from "../../screens/HeroDetail/Skills"
 import Category from "../../screens/Category";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -24,6 +25,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const BiographyStack = createStackNavigator(
   {
     Biography: Biography,
+  }
+);
+
+const SkillsStack = createStackNavigator(
+  {
+    Skills: Skills,
   }
 );
 
@@ -46,6 +53,7 @@ const TabNavigatorExportAll = createBottomTabNavigator(
   {
     HeroDetail: HeroDetailStack,
     Biography: BiographyStack,
+    Skills: SkillsStack,
 },
 
 
