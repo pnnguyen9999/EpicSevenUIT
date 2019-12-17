@@ -9,9 +9,10 @@ import {
 } from 'react-native-ui-kitten';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import Modal, { ModalContent } from 'react-native-modals';
+import { AccordionList, Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { View } from 'react-native';
 
-
+var arr = "";
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,7 @@ export default class HomePage extends React.Component {
       filterVisible: false,
       loading: true,
       dataGetAll: [],
+      textData: "",
     };
   }
   arrayholder = [];
@@ -84,11 +86,12 @@ export default class HomePage extends React.Component {
   //  -----------------------------
 
   searchFilterFunction = text => {
+    arr = "",
     this.setState({
       value: text,
     });
     const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.name}`;
+      const itemData = `${item.name} ${item.zodiac}`;
       const itemDataUpp = itemData.toUpperCase();
       const textData = text.toUpperCase();
       return itemDataUpp.indexOf(textData) > -1;
@@ -97,16 +100,27 @@ export default class HomePage extends React.Component {
   };
 
   filter = text => {
-    this.setState({
-      value: text,
-    });
-    const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.element} ${item.classType}`;
+      
+      // if (this.state.textData == "") {
+      //   this.setState({
+      //     textData : text.toUpperCase()
+      //   });
+      // } else {
+      //   //console.log(this.state.textData);
+      // }
+      arr = arr.concat(text.toUpperCase(), " ");
+      console.log(arr);
+      const newData = this.arrayholder.filter(item => {
+      const itemData = `${item.element} ${item.classType} ${item.zodiac} ${item.classType} ${item.element} ${item.zodiac} ${item.classType} ${item.zodiac} ${item.element} ${item.classType+' '}`;
+
       const itemDataUpp = itemData.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemDataUpp.indexOf(textData) > -1;
+      // const textData = textData.concat(text.toUpperCase());
+     
+
+      return itemDataUpp.indexOf(arr) > -1;
     });
     this.setState({ dataGetAll: newData });
+    
   };
 
 
@@ -121,6 +135,58 @@ export default class HomePage extends React.Component {
     const dimensions = Dimensions.get('window');
     const imageWidth = (dimensions.width / 2) - ((dimensions.width * 8) / 100);
     const { navigate } = this.props.navigation;
+
+    const renderHead = (item) => (
+      <View style={{ backgroundColor: "rgba(60,141,168,0.2)", padding: 10, marginVertical: 7, flexDirection: 'row' }}>
+        <Image
+          style={{ width: 80, height: 80, borderRadius: 5 }}
+          source={{ uri: item.package.isPassive ? "https://assets.epicsevendb.com/hero/" + log + "/sk_" + item.id + "p.png" : "https://assets.epicsevendb.com/hero/" + log + "/sk_" + item.id + ".png" }}
+        />
+        <View style={{ width: width_screen - 90 }}>
+          <Text style={{ color: "#fff", padding: 5, fontSize: 17, fontWeight: 'bold' }}>{item.package.name}</Text>
+          <Text style={{ color: "#eee", padding: 5, fontSize: 15 }}>{item.package.isPassive ? "Passive" : "Active"}</Text>
+        </View>
+      </View>
+    );
+    // render chi tiet content skill
+    const renderBody = (item) => (
+      <View style={{ padding: 10, flexDirection: 'column' }}>
+        <Text style={{ color: "#73E6E6", fontWeight: 'bold' }}>+ {item.package.soulAcquire} soul</Text>
+        <Text style={{ color: "#eee", fontWeight: 'bold' }}>{item.package.description}</Text>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ color: "#fc8c03", fontWeight: 'bold', paddingVertical: 10 }}>[ Skill Enhance ]</Text>
+        </View>
+        {item.package.enhancement.map(function (itemEnhance, index) {
+          return (
+            <View style={{
+              backgroundColor: "rgba(54,140,154,0.2)",
+              padding: 5,
+              flexDirection: 'column',
+              marginVertical: 5,
+              borderRadius: 5
+            }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: "#eee", fontSize: 15 }}><Text style={{ color: "#fcba03", fontSize: 15 }}>(+{index}) </Text>{itemEnhance.description}</Text>
+              </View>
+
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginVertical: 5 }}>
+                {itemEnhance.resources.map(function (resources, index) {
+                  return (
+                    <View style={{ paddingHorizontal: 5, flexDirection: "row" }}>
+                      <Image
+                        style={{ width: 50, height: 50, borderRadius: 5 }}
+                        source={{ uri: "https://assets.epicsevendb.com/item/" + resources.item + ".png" }}
+                      />
+                      <Text style={{ color: "#eee", paddingVertical: 10 }}> x{resources.qty}</Text>
+                    </View>
+                  )
+                })}
+              </View>
+            </View>
+          )
+        })}
+      </View>
+    );
 
 
     const renderHeroItems = ({ item, index }) => (
@@ -151,102 +217,150 @@ export default class HomePage extends React.Component {
     );
 
     //  -----------------------------
-    
- 
-  
+
+
+
     return (
       <ImageBackground source={require("../images/background.jpg")} style={{ flex: 1, resizeMode: 'contain', justifyContent: 'center', backgroundColor: '#eee' }}>
-       <Modal
-        modalStyle={{width:dimensions.width - 50, height:200}}
-        visible={this.state.filterVisible}
-        onTouchOutside={() => {
-          this.setState({ filterVisible: false });
-        }}
-       >
-        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-        <ApplicationProvider mapping={mapping} theme={lightTheme}>
-          <View style={{margin:5}}>
-            <Text style={{padding:10,textAlign:'center', fontSize:17, fontWeight:'bold'}}>Element</Text>
-            <View style={{flexDirection:"row", justifyContent:'center', alignItems:'center'}}>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('fire')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_profire.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('ice')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proice.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('earth')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proearth.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('light')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promlight.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('dark')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promdark.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
+        
+        <Collapse style={{ }}>
+            <CollapseHeader style={{ backgroundColor: '#63a4b9' }}>
+              <View style={{ padding: 5,}}>
+                <TextInput
+                  placeholder="Search hero ..."
+                  style={{ paddingHorizontal: 10, backgroundColor: "#fff", borderRadius: 5, color: "#3c8da8", height: 40, margin: 12 }}
+                  onChangeText={text => this.searchFilterFunction(text)}
+                  autoCorrect={false}
+                  size="small"
+                />
+                <Image
+                    style={{ width: 22, height: 22, marginVertical: 2, tintColor: "rgba(255,255,255,0.9)", alignSelf:'center' }}
+                    source={{ uri: 'https://akveo.github.io/eva-icons/outline/png/128/arrowhead-down-outline.png' }}
+                  />
               </View>
-            </View>
+            </CollapseHeader>
+            <CollapseBody style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: '#63a4b9', margin:15, borderRadius:5 }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical:5 }}>
 
-            <View style={{margin:5}}>
-            <Text style={{padding:10,textAlign:'center', fontSize:17, fontWeight:'bold'}}>Class</Text>
-            <View style={{flexDirection:"row", justifyContent:'center', alignItems:'center'}}>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('knight')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_knight.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('warrior')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_warrior.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('thief')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_thief.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('mage')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_mage.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('soul-weaver')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_soul-weaver.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('ranger')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_ranger.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={{padding:5}} onPress={()=>this.filter('material')}>
-                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_material.png" }} 
-                             style={{ width: 30, height: 30 }}></Image>
-                </TouchableOpacity>
+                <View style={{ marginBottom: 5 }}>
+                  <Text style={{ padding: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color:"#fff" }}>Element</Text>
+                  <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('fire')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_profire.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('ice')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proice.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('earth')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_proearth.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('light')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promlight.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('dark')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/attribute/cm_icon_promdark.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={{ marginBottom: 5 }}>
+                  <Text style={{ padding: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color:"#fff" }}>Class</Text>
+                  <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('knight')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_knight.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('warrior')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_warrior.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('thief')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_thief.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('mage')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_mage.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('soul-weaver')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_soul-weaver.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('ranger')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_ranger.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('material')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/class/cm_icon_role_material.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={{ marginBottom: 5 }}>
+                  <Text style={{ padding: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color:"#fff" }}>Zodiac</Text>
+                  <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center',flexWrap:'wrap',width:250 }}>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('aries')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/1_aries.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('taurus')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/2_taurus.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('gemini')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/3_gemini.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('cancer')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/4_cancer.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('leo')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/5_leo.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('virgo')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/6_virgo.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('libra')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/7_libra.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('scorpio')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/8_scorpio.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('sagittarius')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/9_sagittarius.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('capricorn')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/10_capricorn.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('aquarius')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/11_aquarius.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('pisces')}>
+                      <Image source={{ uri: "https://assets.epicsevendb.com/zodiac-sign/12_pisces.png" }}
+                        style={{ width: 30, height: 30 }}></Image>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
               </View>
-            </View>
-
-
-          </ApplicationProvider>
-        </View>
-      </Modal>
-    
-        <View style={{ padding: 5, flexDirection: 'row' }}>
-          <TextInput
-            placeholder="Search hero ..."
-            style={{ width: dimensions.width - 80, paddingHorizontal: 10, backgroundColor: "#fff", borderRadius: 5, color: "#3c8da8", height: 40, margin: 12 }}
-            onChangeText={text => this.searchFilterFunction(text)}
-            autoCorrect={false}
-            size="small"
-          />
-          <TouchableOpacity onPress={() => {this.setState({ filterVisible: true }); }}>
-            <Image
-              style={{ width: 35, height: 35, marginVertical: 12, tintColor: "rgba(255,255,255,0.9)" }}
-              source={{ uri: 'https://akveo.github.io/eva-icons/outline/png/128/funnel-outline.png' }}
-            />
-          </TouchableOpacity>
-        </View>
-        <ScrollView style={{}}>
-
+            </CollapseBody>
+          </Collapse>
+        <ScrollView style={{paddingTop:10}}>
+          
           <View style={{ marginTop: 5, paddingBottom: 10, backgroundColor: 'transparent', marginHorizontal: 0, borderBottomWidth: 1, borderColor: "#DDD" }}>
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
               <List
@@ -265,7 +379,7 @@ export default class HomePage extends React.Component {
           </View>
 
         </ScrollView>
-       
+
       </ImageBackground>
     );
   }

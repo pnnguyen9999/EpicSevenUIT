@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer'
 import { createStackNavigator } from 'react-navigation-stack';
@@ -35,10 +35,44 @@ const Hero = createStackNavigator({
   {
     Main: {
       screen: Hero,
+      navigationOptions: {
+        drawerLabel: "Hero List",
+        drawerIcon: ({ tintColor }) => (
+          <Image
+            source={{ uri: 'https://akveo.github.io/eva-icons/outline/png/128/shield-outline.png' }}
+            resizeMode="contain"
+            style={{ width: 22, height: 22, tintColor: tintColor }}
+          />
+        )
+      }
     },
-    Main2: {
-      screen: HeroMain,
+    Catalyst: {
+      screen: Hero,
+      navigationOptions: {
+        drawerLabel: "Catalyst",
+        drawerIcon: ({ tintColor }) => (
+          <Image
+            source={{ uri: 'https://akveo.github.io/eva-icons/outline/png/128/pantone-outline.png' }}
+            resizeMode="contain"
+            style={{ width: 22, height: 22, tintColor: tintColor }}
+          />
+        )
+      }
     },
+    Artifacts: {
+      screen: Hero,
+      navigationOptions: {
+        drawerLabel: "Artifacts",
+        drawerIcon: ({ tintColor }) => (
+          <Image
+            source={{ uri: 'https://akveo.github.io/eva-icons/outline/png/128/smartphone-outline.png' }}
+            resizeMode="contain"
+            style={{ width: 22, height: 22, tintColor: tintColor }}
+          />
+        )
+      }
+    },
+
   },
   {
     contentComponent: DrawerCustom,
