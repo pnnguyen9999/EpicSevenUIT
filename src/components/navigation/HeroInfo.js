@@ -59,9 +59,10 @@ const TabNavigatorExportAll = createBottomTabNavigator(
 
 {
   tabBarOptions: {
-    activeTintColor: '#333333',
-    activeBackgroundColor: '#eee',
-    inactiveTintColor: 'gray',
+    activeTintColor: '#fff',
+    activeBackgroundColor: '#367f97',
+    inactiveTintColor: '#eee',
+    inactiveBackgroundColor: '#3c8da8',
     labelStyle:{flex:2, fontWeight:'bold',fontSize:14},
   },
 }

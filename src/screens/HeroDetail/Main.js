@@ -293,8 +293,9 @@ export default class HomePage extends React.Component {
     // alert(this.state.get_failed)
     const width_screen = Dimensions.get('window').width;
     return ( 
-      <ScrollView style={{backgroundColor: '#eee'}}>
-          <ImageBackground source={require("../../images/background.jpg")} style={{flex:1,resizeMode: 'contain'}}>
+      <ImageBackground source={require("../../images/background.jpg")} style={{flex:1,resizeMode: 'contain'}}>
+      <ScrollView>
+          
         <View style={{flex:1,padding:10,paddingTop:20,paddingBottom:5,flexDirection:'row',justifyContent:'space-around'}}>
             <View style={{flexDirection:'row'}}>
                 {renderElement(this.state.dataGetAll.element)}
@@ -324,8 +325,9 @@ export default class HomePage extends React.Component {
                onError={this._onError}
                ></Image>}
         </View>
-        </ImageBackground>
+        
       </ScrollView>
+      </ImageBackground>
     );
   }
 }

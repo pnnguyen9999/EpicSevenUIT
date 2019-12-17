@@ -143,21 +143,6 @@ export default class HomePage extends React.Component {
                     <Text style={{ color: "#eee", padding: 5, fontSize: 15 }}>{item.package.isPassive ? "Passive" : "Active"}</Text>
                 </View>
             </View>
-
-            //     <ListItem
-            //     style={{backgroundColor:"rgba(60,141,168,0.2)"}}
-            //     title={item.package.name}
-            //     description={item.package.name}
-            //     icon={(style, uri) => {
-            //         delete style.tintColor
-            //         return (
-            //           <Image
-            //             style={{ width: 80, height: 80, borderRadius:5}}
-            //             source={{ uri: item.package.isPassive ? "https://assets.epicsevendb.com/hero/"+log+"/sk_"+item.id+"p.png" : "https://assets.epicsevendb.com/hero/"+log+"/sk_"+item.id+".png" }}
-            //           />
-            //         )
-            //       }}
-            //   />
         );
         // render chi tiet content skill
         const renderBody = (item) => (
