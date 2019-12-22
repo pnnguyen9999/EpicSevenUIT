@@ -1,37 +1,11 @@
 import React from 'react';
-// import Intl from 'react-native-intl';
 import { StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
-  BottomNavigation,
-  BottomNavigationTab,
-  Icon,
-  Input,
-  Layout,
-  List,
   Text,
-  ListItem,
-  Button
 } from 'react-native-ui-kitten';
-import {
-  mapping,
-  light as theme,
-} from '@eva-design/eva';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { View } from 'react-native';
-import { createAppContainer, navigationOptions } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-
-const SAMPLE_DATA = {
-  title: 'Item',
-};
-
-const StarIcon = (style) => (
-  <Icon {...style} name='star' />
-);
-
-var log;
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -287,7 +261,13 @@ export default class HomePage extends React.Component {
         }
     }
 
-    
+    renderStar = (count) => {
+      var indents = [];
+      for (var i=0;i < count;i++){
+        indents.push( <Image source={{ uri: "https://assets.epicsevendb.com/star/cm_icon_star.png" }} style={{ width: 30, height: 30, marginLeft:-5 }}></Image>);
+      }
+      return indents;
+    }
 
     const propsFromMessages = this.props.navigation.state.params;
     // alert(this.state.get_failed)
@@ -313,7 +293,9 @@ export default class HomePage extends React.Component {
         </View>
         <View style={{flex:1,flexDirection:'row',padding:10,paddingLeft:20}}>
             <Text style={{ fontSize:32, fontWeight:'bold',lineHeight:32,color:"#fff" }}>{this.state.dataGetAll.name}</Text>
+            
         </View>
+        <View style={{flexDirection: 'row', paddingBottom:5, paddingLeft:20}}>{renderStar(this.state.dataGetAll.rarity)}</View>
         <Text style={{flex:1,paddingLeft:20, fontStyle:'italic',color:"#fff" }}>{this.state.dataGetAll.description}</Text>
 
         <View style={{height:400,padding:5,flexDirection:'column',justifyContent:'center',marginTop:95}}>

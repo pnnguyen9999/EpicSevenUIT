@@ -15,6 +15,7 @@ import { View } from 'react-native';
 
 var arr = "";
 var count = 0;
+
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -75,17 +76,6 @@ export default class HomePage extends React.Component {
       })
       .catch(error => console.log(error))
   }
-
-  handleLoadMoreAll = () => {
-    this.setState(
-      {
-        loadMoreAll: this.state.loadMoreAll + 1,
-        loading: true
-      },
-      this.getDataAll
-    )
-  }
-
   //  -----------------------------
   toggleChanged = () => {
     alert('cc')
@@ -100,7 +90,7 @@ export default class HomePage extends React.Component {
         value: text,
       });
     const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.name} ${item.zodiac}`;
+      const itemData = `${item.name}`;
       const itemDataUpp = itemData.toUpperCase();
       const textData = text.toUpperCase();
       return itemDataUpp.indexOf(textData) > -1;
@@ -126,7 +116,7 @@ export default class HomePage extends React.Component {
         arr = arr.concat(text.toUpperCase(), " ");
         console.log(arr);
         const newData = this.arrayholder.filter(item => {
-          const itemData = `${item.element} ${item.classType} ${item.zodiac} ${item.classType} ${item.element} ${item.zodiac} ${item.classType} ${item.zodiac} ${item.element} ${item.classType + ' '}`;
+          const itemData = `${item.rarity} ${item.element} ${item.classType} ${item.zodiac} ${item.classType} ${item.element} ${item.zodiac} ${item.classType} ${item.zodiac} ${item.element} ${item.classType + ' '}`;
 
           const itemDataUpp = itemData.toUpperCase();
           // const textData = textData.concat(text.toUpperCase());
@@ -217,6 +207,32 @@ export default class HomePage extends React.Component {
           </CollapseHeader>
           <CollapseBody style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: '#63a4b9', margin: 15, borderRadius: 5 }}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 5 }}>
+
+            {/* <View style={{ marginBottom: 5 }}>
+                <Text style={{ padding: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: "#fff" }}>Rarity</Text>
+                <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
+                  <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('1')}>
+                    <Image source={{ uri: "https://assets.epicsevendb.com/star/cm_icon_star.png" }}
+                      style={{ width: 30, height: 30 }}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('2')}>
+                    <Image source={{ uri: "https://assets.epicsevendb.com/star/cm_icon_star.png" }}
+                      style={{ width: 30, height: 30 }}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('3')}>
+                    <Image source={{ uri: "https://assets.epicsevendb.com/star/cm_icon_star.png" }}
+                      style={{ width: 30, height: 30 }}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('4')}>
+                    <Image source={{ uri: "https://assets.epicsevendb.com/star/cm_icon_star.png" }}
+                      style={{ width: 30, height: 30 }}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ padding: 5 }} onPress={() => this.filter('5')}>
+                    <Image source={{ uri: "https://assets.epicsevendb.com/star/cm_icon_star.png" }}
+                      style={{ width: 30, height: 30 }}></Image>
+                  </TouchableOpacity>
+                </View>
+              </View> */}
 
               <View style={{ marginBottom: 5 }}>
                 <Text style={{ padding: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: "#fff" }}>Element</Text>
