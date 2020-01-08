@@ -24,6 +24,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 const App: () => React$Node = () => {
+  // console.disableYellowBox = true;
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor='#006079'/>

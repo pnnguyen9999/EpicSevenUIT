@@ -113,7 +113,7 @@ export default class HomePage extends React.Component {
     this.setState({ get_failed: 1 })
   }
 
-  
+
 
 
 
@@ -124,13 +124,13 @@ export default class HomePage extends React.Component {
 
     // Relationship
     const renderRelationsItems = ({ item, index }) => (
-      <View key={index} style={{width: imageWidth, flexDirection:'row',margin:15}}>
-        <Image source={{ uri: "https://assets.epicsevendb.com/hero/"+item._id+"/icon.png"}} 
-        style={{width: 70, height: 70}}></Image>
-       <View style={{flexDirection:'column',margin:10,}}>
-       <Text numberOfLines={2} ellipsizeMode='tail' style={{color:'#fff',fontWeight:'bold',width:imageWidth-70}}>{item.name}</Text>
-        <Text style={{color:'#fff',width:imageWidth-70}}>{item.relationType}</Text>
-       </View>
+      <View key={index} style={{ width: imageWidth, flexDirection: 'row', margin: 15 }}>
+        <Image source={{ uri: "https://assets.epicsevendb.com/hero/" + item._id + "/icon.png" }}
+          style={{ width: 70, height: 70 }}></Image>
+        <View style={{ flexDirection: 'column', margin: 10, }}>
+          <Text numberOfLines={2} ellipsizeMode='tail' style={{ color: '#fff', fontWeight: 'bold', width: imageWidth - 70 }}>{item.name}</Text>
+          <Text style={{ color: '#fff', width: imageWidth - 70 }}>{item.relationType}</Text>
+        </View>
       </View>
     );
 
@@ -144,56 +144,57 @@ export default class HomePage extends React.Component {
     // alert(this.state.get_failed)
     const width_screen = Dimensions.get('window').width;
     return (
-      <ScrollView style={{ backgroundColor: '#eee' }}>
-        <ImageBackground source={require("../../images/background.jpg")} style={{ justifyContent: 'center',resizeMode: 'contain',flex:1 }}>
+
+      <ImageBackground source={require("../../images/background.jpg")} style={{ justifyContent: 'center', resizeMode: 'contain', flex: 1 }}>
+        <ScrollView style={{ }}>
           <View style={{ height: 120, flexDirection: 'column' }}>
-            <Text style={{ color:'#fff',fontSize: 25, fontWeight: 'bold', padding: 25,textAlign:'center' }}>Story Stats</Text>
+            <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', padding: 25, textAlign: 'center' }}>Story Stats</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <View style={{ flexDirection:'column',justifyContent: 'space-around'}}>
-                  <Text style={{color:'#fff',fontWeight:'bold'}}>Command</Text>
-                  <Text style={{color:'#fff',textAlign:'center',padding:10}}>{this.state.dataGetStats.command}</Text>
+              <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Command</Text>
+                <Text style={{ color: '#fff', textAlign: 'center', padding: 10 }}>{this.state.dataGetStats.command}</Text>
               </View>
-              <View style={{ flexDirection:'column',justifyContent: 'space-around'}}>
-                  <Text style={{color:'#fff',fontWeight:'bold'}}>Charm</Text>
-                  <Text style={{color:'#fff',textAlign:'center',padding:10}}>{this.state.dataGetStats.charm}</Text>
+              <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Charm</Text>
+                <Text style={{ color: '#fff', textAlign: 'center', padding: 10 }}>{this.state.dataGetStats.charm}</Text>
               </View>
-              <View style={{ flexDirection:'column',justifyContent: 'space-around'}}>
-                  <Text style={{color:'#fff',fontWeight:'bold'}}>Politics</Text>
-                  <Text style={{color:'#fff',textAlign:'center',padding:10}}>{this.state.dataGetStats.politics}</Text>
+              <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Politics</Text>
+                <Text style={{ color: '#fff', textAlign: 'center', padding: 10 }}>{this.state.dataGetStats.politics}</Text>
               </View>
             </View>
           </View>
 
-          <View style={{ flexDirection: 'column',margin:20 }}>
-            <Text style={{ color:'#fff',fontSize: 25, fontWeight: 'bold', padding: 15,textAlign:'center' }}>Background</Text>
+          <View style={{ flexDirection: 'column', margin: 20 }}>
+            <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', padding: 15, textAlign: 'center' }}>Background</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                <Text style={{color:'#fff',textAlign:'center',padding:5}}>{this.state.dataGetAll.background}</Text>
+              <Text style={{ color: '#fff', textAlign: 'center', padding: 5 }}>{this.state.dataGetAll.background}</Text>
             </View>
           </View>
 
-          <View style={{ flexDirection: 'column',margin:20,marginTop:0 }}>
-            <Text style={{ color:'#fff',fontSize: 25, fontWeight: 'bold', padding: 15,textAlign:'center' }}>Character Relations</Text>
+          <View style={{ flexDirection: 'column', margin: 20, marginTop: 0 }}>
+            <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', padding: 15, textAlign: 'center' }}>Character Relations</Text>
             <View style={{ justifyContent: 'center' }}>
-            <FlatList
-            numColumns={2}
-            style={{alignSelf:'center'}}
-            renderItem={renderRelationsItems}
-            data={this.state.dataGetRelations}
-            keyExtractor={(item, index) => index.toString()}
-            >
-            </FlatList>
+              <FlatList
+                numColumns={2}
+                style={{ alignSelf: 'center' }}
+                renderItem={renderRelationsItems}
+                data={this.state.dataGetRelations}
+                keyExtractor={(item, index) => index.toString()}
+              >
+              </FlatList>
             </View>
           </View>
 
-          <View style={{ flexDirection: 'column',margin:20,marginTop:5 }}>
-            <Text style={{ color:'#fff',fontSize: 25, fontWeight: 'bold', padding: 15,textAlign:'center' }}>Specialty</Text>
-            <View style={{ flexDirection:'row' }}>
-              <Image source={{ uri: "https://assets.epicsevendb.com/hero/_placeholder/sk_missing.png" }} style={{width:70,height:70,alignSelf:'flex-start'}}></Image>
-              <View style={{paddingLeft:10,flexDirection:'column'}}>
-                <Text style={{color:'#fff',padding:5,fontSize:20,fontWeight:'bold',textDecorationLine:'underline'}}>{this.state.dataGetSpecial.name}</Text>
-                <View style={{flexDirection:'column',justifyContent:'space-between'}}>
-                  <Text style={{color:'#90CAF9',padding:5, fontWeight:'bold'}}>{this.state.dataGetSpecial.dispatch}</Text>
-                  <Text style={{color:'#fff',padding:5}}>{this.state.dataGetSpecial.enhancement}</Text>
+          <View style={{ flexDirection: 'column', margin: 20, marginTop: 5 }}>
+            <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', padding: 15, textAlign: 'center' }}>Specialty</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={{ uri: "https://assets.epicsevendb.com/hero/_placeholder/sk_missing.png" }} style={{ width: 70, height: 70, alignSelf: 'flex-start' }}></Image>
+              <View style={{ paddingLeft: 10, flexDirection: 'column' }}>
+                <Text style={{ color: '#fff', padding: 5, fontSize: 20, fontWeight: 'bold', textDecorationLine: 'underline' }}>{this.state.dataGetSpecial.name}</Text>
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <Text style={{ color: '#90CAF9', padding: 5, fontWeight: 'bold' }}>{this.state.dataGetSpecial.dispatch}</Text>
+                  <Text style={{ color: '#fff', padding: 5 }}>{this.state.dataGetSpecial.enhancement}</Text>
                 </View>
               </View>
             </View>
@@ -202,8 +203,9 @@ export default class HomePage extends React.Component {
 
 
 
-        </ImageBackground>
-      </ScrollView>
+
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginBottom: 5,
   },
- 
+
 
 });
 

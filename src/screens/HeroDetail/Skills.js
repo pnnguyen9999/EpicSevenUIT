@@ -51,7 +51,7 @@ export default class HomePage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerStyle: { height: 60, padding: 0, margin: 0 },
-            title: "Biography",
+            title: "Skills",
             headerStyle: {
                 backgroundColor: '#3c8da8',
                 color: '#fff',
@@ -150,7 +150,7 @@ export default class HomePage extends React.Component {
                 <Text style={{ color: "#73E6E6", fontWeight: 'bold' }}>+ {item.package.soulAcquire} soul</Text>
                 <Text style={{ color: "#eee", fontWeight: 'bold' }}>{item.package.description}</Text>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: "#fc8c03", fontWeight: 'bold', paddingVertical:10 }}>[ Skill Enhance ]</Text>
+                    <Text style={{ color: "#fc8c03", fontWeight: 'bold', paddingVertical: 10 }}>[ Skill Enhance ]</Text>
                 </View>
                 {item.package.enhancement.map(function (itemEnhance, index) {
                     return (
@@ -185,8 +185,9 @@ export default class HomePage extends React.Component {
         );
 
         return (
-            <ScrollView style={{ backgroundColor: '#eee' }}>
-                <ImageBackground source={require("../../images/background.jpg")} style={{ justifyContent: 'center', resizeMode: 'contain', flex: 1 }}>
+            <ImageBackground source={require("../../images/background.jpg")} style={{ justifyContent: 'center', resizeMode: 'contain', flex: 1 }}>
+                <ScrollView style={{}}>
+
                     <View style={{ flexDirection: 'column' }}>
                         <Text style={{ color: '#fff', fontSize: 25, fontWeight: 'bold', paddingTop: 25, textAlign: 'center' }}>Skills</Text>
                         <AccordionList
@@ -195,8 +196,9 @@ export default class HomePage extends React.Component {
                             body={renderBody}
                         />
                     </View>
-                </ImageBackground>
-            </ScrollView>
+                </ScrollView>
+            </ImageBackground>
+
         );
     }
 }

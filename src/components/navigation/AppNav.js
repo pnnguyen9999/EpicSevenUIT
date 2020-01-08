@@ -5,8 +5,10 @@ import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer'
 import { createStackNavigator } from 'react-navigation-stack';
 import HeroMain from './Hero';
 import HeroInfo from './HeroInfo';
-
-
+import Catalyst from './Catalyst';
+import CatalystInfo from './CatalystInfo';
+import Artifacts from './Artifacts';
+import ArtifactsInfo from './ArtifactInfo';
 
 const DrawerCustom = (props) => (
   <View style={{paddingTop: 60, flex: 1, backgroundColor: "#3c8da8"}}>
@@ -22,6 +24,41 @@ const Hero = createStackNavigator({
   },
   HeroInfo: {
     screen: HeroInfo,
+  }
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+ })
+
+
+ const CatalystStack = createStackNavigator({
+  // You could add another route here for authentication.
+  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+  CatalystMain: {
+    screen: Catalyst,
+  },
+  CatalystInfo: {
+    screen: CatalystInfo,
+  }
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+ })
+
+ const ArtifactsStack = createStackNavigator({
+  // You could add another route here for authentication.
+  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+  ArtifactsMain: {
+    screen: Artifacts,
+  },
+  ArtifactsInfo: {
+    screen: ArtifactsInfo,
   }
 },
 {
@@ -47,7 +84,7 @@ const Hero = createStackNavigator({
       }
     },
     Catalyst: {
-      screen: Hero,
+      screen: CatalystStack,
       navigationOptions: {
         drawerLabel: "Catalyst",
         drawerIcon: ({ tintColor }) => (
@@ -60,7 +97,7 @@ const Hero = createStackNavigator({
       }
     },
     Artifacts: {
-      screen: Hero,
+      screen: ArtifactsStack,
       navigationOptions: {
         drawerLabel: "Artifacts",
         drawerIcon: ({ tintColor }) => (
