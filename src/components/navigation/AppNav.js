@@ -8,7 +8,7 @@ import HeroInfo from './HeroInfo';
 import Catalyst from './Catalyst';
 import CatalystInfo from './CatalystInfo';
 import Artifacts from './Artifacts';
-
+import ArtifactsInfo from './ArtifactInfo';
 
 const DrawerCustom = (props) => (
   <View style={{paddingTop: 60, flex: 1, backgroundColor: "#3c8da8"}}>
@@ -57,8 +57,8 @@ const Hero = createStackNavigator({
   ArtifactsMain: {
     screen: Artifacts,
   },
-  HeroInfo: {
-    screen: HeroInfo,
+  ArtifactsInfo: {
+    screen: ArtifactsInfo,
   }
 },
 {

@@ -30,7 +30,7 @@ export default class HomePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerStyle: { height: 60, padding: 0, margin: 0 },
-      title: "Heroes list",
+      title: "Catalyst list",
       headerStyle: {
         backgroundColor: '#3c8da8',
         color: '#fff',

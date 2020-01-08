@@ -30,7 +30,7 @@ export default class HomePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerStyle: { height: 60, padding: 0, margin: 0 },
-      title: "Heroes list",
+      title: "Artifact list",
       headerStyle: {
         backgroundColor: '#3c8da8',
         color: '#fff',
@@ -108,8 +108,8 @@ export default class HomePage extends React.Component {
       <>
         <TouchableOpacity onPress={() => {
           AsyncStorage.setItem('heroID', item._id);
-          this.props.navigation.navigate('HeroDetail', {
-            heroID: item._id
+          this.props.navigation.navigate('ArtifactDetail', {
+            artifactID: item._id
           });
         }} style={{}}>
 
